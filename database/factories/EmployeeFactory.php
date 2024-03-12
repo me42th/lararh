@@ -18,11 +18,11 @@ class EmployeeFactory extends Factory
     {
         $gender = ['M','F'][random_int(0,1)];
         return [
-            "birth_date"=>$this->faker->dateTime(),
+            "birth_date"=>$this->faker->dateTime()->format('Y-m-d'),
             "first_name"=>$this->faker->firstName($gender==='M'?'male':'female'),
             "last_name"=>$this->faker->lastName(),
             "gender"=>$gender,
-            "hire_date"=>$this->faker->dateTime()
+            "hire_date"=>$this->faker->dateTime()->format('Y-m-d')
         ];
     }
 }
