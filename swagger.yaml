@@ -1,0 +1,158 @@
+openapi: 3.0.0
+info:
+  title: 'Employee API'
+  description: 'Project for MySql sample database'
+  contact:
+    name: me42th
+  version: '1.0'
+servers:
+  -
+    url: 'http://localhost:8000'
+    description: 'Local server'
+paths:
+  /employee:
+    get:
+      tags:
+        - employee
+      summary: 'Finds employees by filter'
+      description: 'Filter values can be provided'
+      operationId: acf9f53bd1a42d27fa084b4a7a53cb30
+      parameters:
+        -
+          name: gender
+          in: query
+          description: 'Gender values for filter'
+          required: false
+          explode: true
+          schema:
+            type: string
+            enum:
+              - M
+              - F
+        -
+          name: first_name
+          in: query
+          description: 'First name for filter'
+          required: false
+          explode: true
+          schema:
+            type: string
+        -
+          name: last_name
+          in: query
+          description: 'Last name for filter'
+          required: false
+          explode: true
+          schema:
+            type: string
+        -
+          name: hire_date
+          in: query
+          description: 'Hire date for filter'
+          required: false
+          explode: true
+          schema:
+            type: date
+        -
+          name: birth_date
+          in: query
+          description: 'Birth date for filter'
+          required: false
+          explode: true
+          schema:
+            type: date
+      responses:
+        '200':
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/employee'
+    post:
+      tags:
+        - employee
+      summary: 'Add a new employee'
+      operationId: 57cf4dc4617e065385069664f4507527
+      requestBody:
+        $ref: '#/components/requestBodies/employee'
+      responses:
+        '422':
+          description: 'Invalid input'
+        '200':
+          description: Created
+  '/employee/{employeeId}':
+    get:
+      tags:
+        - employee
+      summary: 'Find employee by ID'
+      description: 'Returns a single employee'
+      operationId: fcc002d16607bae9ba4a1e7778b2de9f
+      parameters:
+        -
+          name: employeeId
+          in: path
+          description: 'ID of employee to return'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/employee'
+        '400':
+          description: 'Invalid ID supplier'
+        '404':
+          description: 'Employee not found'
+components:
+  schemas:
+    employee:
+      description: 'Schema of Model User'
+      properties:
+        emp_no:
+          title: emp_no
+          description: emp_no
+          type: integer
+          example: '42'
+        first_name:
+          description: 'First name of employee'
+          type: string
+          example: John
+        last_name:
+          description: 'Last name of employee'
+          type: string
+          example: Doe
+        birth_date:
+          description: 'Birth date of employee'
+          type: string
+          format: date
+          example: '1990-12-13'
+        gender:
+          description: 'Gender of employee'
+          type: string
+          enum:
+            - M
+            - F
+        hire_date:
+          description: 'Hire date of employee'
+          type: string
+          format: date
+          example: '1990-12-13'
+      type: object
+  requestBodies:
+    employee:
+      description: 'Employee object'
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/employee'
+tags:
+  -
+    name: employee
+    description: 'Employee related operations'
