@@ -18,10 +18,10 @@ class CreateDeptEmpTable extends Migration
             $table->char('dept_no', 4);
             $table->date('from_date');
             $table->date('to_date');
-            
             $table->primary(['emp_no', 'dept_no']);
             $table->foreign('emp_no', 'dept_emp_ibfk_1')->references('emp_no')->on('employees')->onDelete('cascade');
             $table->foreign('dept_no', 'dept_emp_ibfk_2')->references('dept_no')->on('departments')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

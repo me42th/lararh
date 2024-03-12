@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Employee;
 
 /**
  * @OA\Tag(
@@ -57,7 +58,7 @@ class EmployeeController extends Controller
      *         required=false,
      *         explode=true,
      *         @OA\Schema(
-     *             type="date"
+     *             type="string"
      *         )
      *     ),
      *     @OA\Parameter(
@@ -67,7 +68,7 @@ class EmployeeController extends Controller
      *         required=false,
      *         explode=true,
      *         @OA\Schema(
-     *             type="date"
+     *             type="string"
      *         )
      *     ),
      *     @OA\Response(
@@ -77,13 +78,16 @@ class EmployeeController extends Controller
      *             type="array",
      *             @OA\Items(ref="#/components/schemas/employee")
      *         )
-     *     )
+     *     ),
+     *     security={
+     *         {"lararh_auth": {"*"}}
+     *     },
      * )
      */
     public function index()
-
     {
-        //
+        $employees = Employee::paginate();
+        return response()->json($employees);
     }
 
     /**
@@ -97,10 +101,13 @@ class EmployeeController extends Controller
      *         description="Invalid input"
      *     ),
      *     @OA\Response(
-     *         response=200,
+     *         response=201,
      *         description="Created"
      *     ),
-     *     @OA\RequestBody(ref="#/components/requestBodies/employee")
+     *     @OA\RequestBody(ref="#/components/requestBodies/employee"),
+     *     security={
+     *         {"lararh_auth": {"*"}}
+     *     },
      * )
      */
     public function store(Request $request)
@@ -136,7 +143,10 @@ class EmployeeController extends Controller
      *     @OA\Response(
      *         response=404,
      *         description="Employee not found"
-     *     )
+     *     ),
+     *     security={
+     *         {"lararh_auth": {"*"}}
+     *     },
      * )
      *
      * @param int $id
@@ -147,7 +157,37 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/employee/{employeeId}",
+     *     tags={"employee"},
+     *     operationId="updateEmployee",
+     *     @OA\Parameter(
+     *         name="employeeId",
+     *         in="path",
+     *         description="ID of employee to return",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Employee not found"
+     *     ),
+     *     @OA\Response(
+     *         response=202,
+     *         description="Updated"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation exception"
+     *     ),
+     *     @OA\RequestBody(ref="#/components/requestBodies/employee"),
+     *     security={
+     *         {"lararh_auth": {"*"}}
+     *     },
+     * )
      */
     public function update(Request $request, string $id)
     {
@@ -155,7 +195,41 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/employee/{employeeId}",
+     *     tags={"employee"},
+     *     summary="Deletes a employee",
+     *     operationId="deleteemployee",
+     *     @OA\Parameter(
+     *         name="api_key",
+     *         in="header",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="employeeId",
+     *         in="path",
+     *         description="employee id to delete",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Employee not found",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Deleted",
+     *     ),
+     *     security={
+     *         {"lararh_auth": {"*"}}
+     *     },
+     * )
      */
     public function destroy(string $id)
     {

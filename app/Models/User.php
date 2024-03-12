@@ -8,6 +8,22 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @OA\SecurityScheme(
+ *     type="oauth2",
+ *     name="lararh_auth",
+ *     securityScheme="lararh_auth",
+ *     @OA\Flow(
+ *         flow="password",
+ *         tokenUrl="/oauth/token",
+ *         scopes={
+ *             "*": "login"
+ *         }
+ *     )
+ * )
+ */
+
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
