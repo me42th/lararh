@@ -18,9 +18,9 @@ class CreateSalariesTable extends Migration
             $table->integer('salary');
             $table->date('from_date');
             $table->date('to_date');
-            
             $table->primary(['emp_no', 'from_date']);
             $table->foreign('emp_no', 'salaries_ibfk_1')->references('emp_no')->on('employees')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

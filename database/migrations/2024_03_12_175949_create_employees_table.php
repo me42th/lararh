@@ -20,6 +20,7 @@ class CreateEmployeesTable extends Migration
             $table->string('last_name', 16);
             $table->enum('gender', ['M', 'F']);
             $table->date('hire_date');
+            $table->timestamps();
         });
     }
 

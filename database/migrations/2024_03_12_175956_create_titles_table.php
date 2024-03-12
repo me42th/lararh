@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSalariesTable extends Migration
+class CreateTitlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreateSalariesTable extends Migration
      */
     public function up()
     {
-        Schema::create('salaries', function (Blueprint $table) {
+        Schema::create('titles', function (Blueprint $table) {
             $table->integer('emp_no');
-            $table->integer('salary');
+            $table->string('title', 50);
             $table->date('from_date');
-            $table->date('to_date');
-            
-            $table->primary(['emp_no', 'from_date']);
-            $table->foreign('emp_no', 'salaries_ibfk_1')->references('emp_no')->on('employees')->onDelete('cascade');
+            $table->date('to_date')->nullable();
+            $table->primary(['emp_no', 'title', 'from_date']);
+            $table->foreign('emp_no', 'titles_ibfk_1')->references('emp_no')->on('employees')->onDelete('cascade');
+            $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
@@ -31,6 +32,6 @@ class CreateSalariesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('salaries');
+        Schema::dropIfExists('titles');
     }
 }

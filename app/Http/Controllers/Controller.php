@@ -9,11 +9,11 @@ use Illuminate\Routing\Controller as BaseController;
 /**
  * @OA\Info(
  *     version="1.0",
- *     title="Employee API",
- *     description="Project for MySql sample database",
- *     @OA\Contact(name="me42th")
+ *     title="LaraRH API",
+ *     description="Project for MySql employees sample database",
+ *     @OA\Contact(name="https://linkedin.com/in/me42th")
  * )
- *  * @OA\Server(
+ * @OA\Server(
  *     url="http://localhost:8000",
  *     description="Local server"
  * )
